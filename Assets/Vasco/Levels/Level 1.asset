@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3692d4b71bf1c4495e6a829ef3bd56, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  sceneIndex: 2
+  sceneIndex: 1
   levelName: Bazinga Level
-  levelDescription: 
-  levelImage: {fileID: 0}

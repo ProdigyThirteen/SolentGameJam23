@@ -19,15 +19,13 @@ public class LevelSelect : MonoBehaviour
             GameObject button = Instantiate(levelButton, levelSelect);
 
             button.GetComponentInChildren<TMP_Text>().text = level.levelName;
-            //TODO level image,, button sound
+            //TODO level image,button sound,etc
 
             button.GetComponent<Button>().onClick.AddListener(() =>
             {
                 SceneController.Instance.LoadScene(level.sceneIndex);
             });
 
-
-            Debug.Log(button.name);
         }
     }
 

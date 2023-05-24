@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.Events;
+
 
 public class SceneController : MonoBehaviour
 {
-    public static SceneController Instance;
+    public static SceneController Instance { get; private set; }
 
     private Scene currentScene;
     [SerializeField] private string currentSceneName;
+
+    public UnityEvent onSceneChanged;
 
     private void Awake()
     {
@@ -17,15 +18,18 @@ public class SceneController : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            SceneManager.activeSceneChanged += OnSceneChanged;
+            SceneManager.activeSceneChanged += OnSceneChanged;         
         }
         else Destroy(gameObject);
     }
 
-    private void OnSceneChanged(Scene current, Scene next)
+    public Scene GetCurrentScene() { return currentScene;}
+
+    public void OnSceneChanged(Scene current, Scene next)
     {
         currentScene = next;
         currentSceneName = currentScene.name;
+        onSceneChanged.Invoke();
     }
 
     public void LoadScene(int sceneIndex)
@@ -37,7 +41,6 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
-
 
     public void ExitGame()
     {

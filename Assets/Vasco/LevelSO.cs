@@ -9,6 +9,4 @@ public class LevelSO : ScriptableObject
 {
     public int sceneIndex;
     public string levelName;
-    public string levelDescription;
-    public Sprite levelImage;
 }
