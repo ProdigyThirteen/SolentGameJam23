@@ -14,11 +14,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float movementTimer = 0.5f;
     private float _movementTimer = 0.0f;
     private bool _extend = false;
+    private Rigidbody2D _rb;
 
     void Start()
     {
         // Initialise remaining segments
         _remainingSegments = GameManager.Instance.TotalSegments;
+
+        // Initialise rigidbody
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -35,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _extend = !_extend;
+
+            if (_extend)
+                _rb.bodyType = RigidbodyType2D.Static;
+            else
+                _rb.bodyType = RigidbodyType2D.Dynamic;
             
             if (_segments.Count > 0)
             {
