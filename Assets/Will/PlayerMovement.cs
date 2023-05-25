@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovement()
     {
 
-        if (CheckCollision(Vector3.down) == null)
+        if (CheckCollision(Vector3.down,0.6f) == null)
             return;
 
         // If timer is still running, don't move
@@ -153,10 +153,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private GameObject CheckCollision(Vector3 direction)
+    private GameObject CheckCollision(Vector3 direction, float rayLength=1.0f)
     {
         // Raycast to check for collision
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, rayLength);
 
         // If hit, return the object
         if (hit.collider != null)
