@@ -70,6 +70,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+
+        if (CheckCollision(Vector3.down) == null)
+            return;
+
         // If timer is still running, don't move
         if (_movementTimer > 0)
             return;
@@ -113,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.right);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.right);
         }
@@ -123,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.left);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.left);
         }
@@ -133,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.down);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.down);
         }
@@ -143,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.up);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.up);
         }
@@ -161,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
         // Otherwise, return null
         return null;
     }
-    private void HitDetected(GameObject other)
+    private void SelfHitDetected(GameObject other)
     {
         if (_segments.Last() == other)
         {
