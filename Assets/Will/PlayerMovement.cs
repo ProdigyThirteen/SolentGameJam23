@@ -4,16 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
-{
-    enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
-
-    
+{    
     [Header("Segments")]
     [SerializeField] private GameObject segmentPrefab;
     private int _remainingSegments = 0;
@@ -42,7 +33,25 @@ public class PlayerMovement : MonoBehaviour
     {
         // Check if should switch between placement or movement
         if (Input.GetKeyDown(KeyCode.Space))
+        {
             _extend = !_extend;
+            
+            if (_segments.Count > 0)
+            {
+                StartCoroutine(ConfirmExtend());
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            _extend = !_extend;
+
+            if (_segments.Count > 0)
+            {
+                //StartCoroutine(CancelExtend());
+                CancelExtend();
+            }
+        }
 
         if (_extend)
             HandlePlacement();
@@ -59,14 +68,20 @@ public class PlayerMovement : MonoBehaviour
         // Otherwise, move and reset timer
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector3.right);
-            _movementTimer = movementTimer;
+            if (CheckCollision(Vector3.right) == null)
+            {
+                transform.Translate(Vector3.right);
+                _movementTimer = movementTimer;                
+            }
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector3.left);
-            _movementTimer = movementTimer;
+            if (CheckCollision(Vector3.left) == null)
+            {
+                transform.Translate(Vector3.left);
+                _movementTimer = movementTimer;
+            }
         }
     }
 
@@ -84,8 +99,6 @@ public class PlayerMovement : MonoBehaviour
     
     private void HandlePlacement()
     {
-        // Check for objects at desired location
-
         if (Input.GetKeyDown(KeyCode.D))
         {
             GameObject hit = CheckCollision(Vector3.right);
@@ -160,5 +173,38 @@ public class PlayerMovement : MonoBehaviour
 
             transform.Translate(direction);
         }
+    }
+
+    IEnumerator ConfirmExtend()
+    {
+        // Iterate through segement list and dissipate segment
+        foreach (GameObject segment in _segments)
+        {
+            segment.GetComponent<Segment>().Dissipate();
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        // Clear list of segements
+        _segments.Clear();
+
+        // Reset remaining segments
+        _remainingSegments = GameManager.Instance.TotalSegments;
+    }
+
+    private void CancelExtend()
+    {
+        transform.position = _segments.First().transform.position;
+        
+        foreach (GameObject segment in _segments)
+        {
+            segment.GetComponent<Segment>().Dissipate();
+            //yield return new WaitForSeconds(0.1f);
+        }
+
+        _segments.Clear();
+
+        _remainingSegments = GameManager.Instance.TotalSegments;
+
+        //yield return null;
     }
 }
