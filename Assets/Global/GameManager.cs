@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public int TotalSegments = 3;
     public const int MaxSegments = 8;
+    public bool StickyAcquired = false;
 
     public void Start()
     {

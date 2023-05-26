@@ -160,7 +160,21 @@ public class PlayerMovement : MonoBehaviour
 
         // If hit, return the object
         if (hit.collider != null)
+        {
+
+            // Check for a pickup component
+            BasePickup PickUp = hit.collider.gameObject.GetComponent<BasePickup>();
+
+            // If found, call collect on the base class, and return null to allow the player to move into it.
+            if (PickUp != null)
+            {
+                PickUp.Collect();
+                return null;
+            }
+
             return hit.collider.gameObject;
+        }
+        
 
         // Otherwise, return null
         return null;
@@ -219,5 +233,12 @@ public class PlayerMovement : MonoBehaviour
         _remainingSegments = GameManager.Instance.TotalSegments;
 
         //yield return null;
+    }
+
+    public void AddSegment()
+    {
+
+        _remainingSegments += 1;
+
     }
 }
