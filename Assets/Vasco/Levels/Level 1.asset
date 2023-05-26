@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Level 1
   m_EditorClassIdentifier: 
   sceneIndex: 1
-  levelName: Bazinga Level
+  name: Tutorial
+  image: {fileID: 0}
