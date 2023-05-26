@@ -1,7 +1,5 @@
-using System.Collections;
+using Newtonsoft.Json.Bson;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
@@ -17,63 +15,35 @@ public class MainMenuManager : MonoBehaviour
     [Header("Background")]
     [SerializeField] private GameObject BackgroundImage;
 
-    [Header("Sound Clips")]
+    [Header("Sounds")]
     [SerializeField] private AudioClip menuMusic;
     [SerializeField] private AudioClip buttonHover;
     [SerializeField] private AudioClip buttonSelect;
     [SerializeField] private AudioClip buttonBack;
 
+    private AudioSettings audioSettings;
+    private VideoSettings videoSettings;
+
     private void Awake()
     {
-        foreach (var level in levels)
-        {
-            LevelCard levelCard = Instantiate(levelCardPrefab, levelSelect);
+        audioSettings = FindObjectOfType<AudioSettings>();
+        videoSettings = FindObjectOfType<VideoSettings>();
 
-            levelCard.Name.text = level.name;
-            levelCard.Image.sprite = level.image;
-
-            levelCard.Button.onClick.AddListener(() =>
-            {
-                SceneController.Instance.LoadScene(level.sceneIndex);
-
-            });
-        }
+        //Not in use
+        //LoadLevelSelect();   
     }
 
     private void Start()
     {     
         SoundManager.Instance.PlayMusic(menuMusic);
 
+        audioSettings.LoadVolumes();
+        videoSettings.Initialize();
+
         if (SceneController.Instance.GetCurrentScene().name == "Main Menu")
-        {
-            foreach (var menu in menus)
-            {
-                if(menu.name == "Main Menu")
-                    menu.Open();
-                else
-                    menu.Close();
-            }
-        }
+            OpenMenu("Main Menu");
     }
 
-    #region Button Sounds
-
-    public void PlayButtonHover()
-    {
-        SoundManager.Instance.PlaySFX(buttonHover);
-    }
-
-    public void PlayButtonSelect()
-    {
-        SoundManager.Instance.PlaySFX(buttonSelect);
-    }
-
-    public void PlayButtonBack()
-    {
-        SoundManager.Instance.PlaySFX(buttonBack);
-    }
-
-    #endregion
 
     #region Menu Handling
     public void OpenMenu(string name)
@@ -93,6 +63,23 @@ public class MainMenuManager : MonoBehaviour
         {
             if (menu.name == name)
                 menu.Close();
+        }
+    }
+
+    private void LoadLevelSelect()
+    {
+        foreach (var level in levels)
+        {
+            LevelCard levelCard = Instantiate(levelCardPrefab, levelSelect);
+
+            levelCard.Name.text = level.name;
+            levelCard.Image.sprite = level.image;
+
+            levelCard.Button.onClick.AddListener(() =>
+            {
+                SceneController.Instance.LoadScene(level.sceneIndex);
+
+            });
         }
     }
     #endregion

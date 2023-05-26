@@ -9,6 +9,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
+    [Header("Menu Music")]
+    [SerializeField] private AudioClip menuMusic;
+
+    [Header("Button Sounds")]
+    [SerializeField] private AudioClip buttonHover;
+    [SerializeField] private AudioClip buttonSelect;
+    [SerializeField] private AudioClip buttonBack;
+
     private void Awake()
     {
         if (Instance == null)
@@ -35,5 +43,29 @@ public class SoundManager : MonoBehaviour
     {
         musicSource.Stop();
     }
+
+    public void PlayMenuMusic()
+    {
+        PlayMusic(menuMusic);
+    }
+
+    #region Button Sounds
+
+    public void PlayButtonHover()
+    {
+        PlaySFX(buttonHover);
+    }
+
+    public void PlayButtonSelect()
+    {
+        PlaySFX(buttonSelect);
+    }
+
+    public void PlayButtonBack()
+    {
+        PlaySFX(buttonBack);
+    }
+
+    #endregion
 
 }
