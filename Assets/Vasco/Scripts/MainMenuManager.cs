@@ -27,10 +27,7 @@ public class MainMenuManager : MonoBehaviour
     private void Awake()
     {
         audioSettings = FindObjectOfType<AudioSettings>();
-        videoSettings = FindObjectOfType<VideoSettings>();
-
-        //Not in use
-        //LoadLevelSelect();   
+        videoSettings = FindObjectOfType<VideoSettings>();  
     }
 
     private void Start()
@@ -43,6 +40,40 @@ public class MainMenuManager : MonoBehaviour
         if (SceneController.Instance.GetCurrentScene().name == "Main Menu")
             OpenMenu("Main Menu");
     }
+
+    #region Button Sounds
+
+    public void PlayButtonHover()
+    {
+        SoundManager.Instance.PlayButtonHover();
+    }
+
+    public void PlayButtonSelect() 
+    { 
+        SoundManager.Instance.PlayButtonSelect();
+    }
+
+    public void PlayButtonBack()
+    {
+        SoundManager.Instance.PlayButtonBack();
+    }
+
+    #endregion
+
+    #region Buttons
+
+    public void Play()
+    {
+        SceneController.Instance.LoadScene("Level 1");
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
+    #endregion
+
 
 
     #region Menu Handling
@@ -63,23 +94,6 @@ public class MainMenuManager : MonoBehaviour
         {
             if (menu.name == name)
                 menu.Close();
-        }
-    }
-
-    private void LoadLevelSelect()
-    {
-        foreach (var level in levels)
-        {
-            LevelCard levelCard = Instantiate(levelCardPrefab, levelSelect);
-
-            levelCard.Name.text = level.name;
-            levelCard.Image.sprite = level.image;
-
-            levelCard.Button.onClick.AddListener(() =>
-            {
-                SceneController.Instance.LoadScene(level.sceneIndex);
-
-            });
         }
     }
     #endregion
