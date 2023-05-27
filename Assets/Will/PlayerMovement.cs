@@ -35,6 +35,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleInput()
     {
+        GameObject hit = CheckCollision(Vector3.down, 0.6f);
+        if (!_extend && (hit == null || hit.GetComponent<Segment>()!=null))
+            return;
+
         // Check if should switch between placement or movement
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -49,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 StartCoroutine(ConfirmExtend());
             }
+
+            return;
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -71,8 +77,6 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovement()
     {
 
-        if (CheckCollision(Vector3.down,0.6f) == null)
-            return;
 
         // If timer is still running, don't move
         if (_movementTimer > 0)
@@ -181,6 +185,10 @@ public class PlayerMovement : MonoBehaviour
     }
     private void SelfHitDetected(GameObject other)
     {
+
+        if (_segments.Count() == 0)
+            return;
+        
         if (_segments.Last() == other)
         {
             transform.position = other.transform.position;
