@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SpikeScript : MonoBehaviour
 {
-    public GameObject position;
+    public GameObject resetPosition;
 
-    public void ResetPlayer()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-
-
+        if (collision.gameObject.TryGetComponent<PlayerMovement>(out PlayerMovement playerMovement))
+            collision.gameObject.transform.position = resetPosition.transform.position;  
 
     }
 }
