@@ -10,6 +10,9 @@ public class Switch : MonoBehaviour
     // List of objects to be disabled when the switch is activated
     public List<GameObject> ObjectsToDisable = new List<GameObject>();
 
+    // List of objects to toggle when the switch is activated
+    public List<GameObject> ObjectsToToggle = new List<GameObject>();
+
     private void Start()
     {
         // Loop through all objects to enable and disable
@@ -40,6 +43,13 @@ public class Switch : MonoBehaviour
                 // Disable the object
                 obj.SetActive(false);
             }
+        }
+
+        // Loop through all objects to toggle
+        foreach (GameObject obj in ObjectsToToggle)
+        {
+            // Toggle the object
+            obj.SetActive(!obj.activeSelf);
         }
     }
 }
