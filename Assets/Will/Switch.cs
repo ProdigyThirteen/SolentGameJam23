@@ -14,7 +14,7 @@ public class Switch : MonoBehaviour
         // If the switch is set to start active, toggle the switchable objects
         foreach (GameObject switchableObject in switchableObjects)
         {
-            if (switchableObject.GetComponent<Switchable>().startActive)
+            if (!switchableObject.GetComponent<Switchable>().startActive)
             {
                 switchableObject.GetComponent<Switchable>().Toggle();
             }
