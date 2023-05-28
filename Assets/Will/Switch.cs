@@ -4,52 +4,32 @@ using UnityEngine;
 
 public class Switch : MonoBehaviour
 {
-    // List of objects to be enabled when the switch is activated
-    public List<GameObject> ObjectsToEnable = new List<GameObject>();
+    private GameObject[] switchableObjects;
 
-    // List of objects to be disabled when the switch is activated
-    public List<GameObject> ObjectsToDisable = new List<GameObject>();
-
-    // List of objects to toggle when the switch is activated
-    public List<GameObject> ObjectsToToggle = new List<GameObject>();
-
-    private void Start()
+    public void Start()
     {
-        // Loop through all objects to enable and disable
-        foreach (GameObject obj in ObjectsToEnable)
+        // Find all objects with the tag "Switchable" and add them to the list
+        switchableObjects = GameObject.FindGameObjectsWithTag("Switchable");
+
+        // If the switch is set to start active, toggle the switchable objects
+        foreach (GameObject switchableObject in switchableObjects)
         {
-            // Disable the object
-            obj.SetActive(false);
+            if (switchableObject.GetComponent<Switchable>().startActive)
+            {
+                switchableObject.GetComponent<Switchable>().Toggle();
+            }
         }
     }
 
-
-    // Called when the switch is activated
-    public void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        // Check if the object that collided with the switch is the player
+        // If the player collides with the switch, toggle the switchable objects
         if (other.CompareTag("Player"))
         {
-            // Loop through all objects to enable
-            foreach (GameObject obj in ObjectsToEnable)
+            foreach (GameObject switchableObject in switchableObjects)
             {
-                // Enable the object
-                obj.SetActive(true);
+                switchableObject.GetComponent<Switchable>().Toggle();
             }
-
-            // Loop through all objects to disable
-            foreach (GameObject obj in ObjectsToDisable)
-            {
-                // Disable the object
-                obj.SetActive(false);
-            }
-        }
-
-        // Loop through all objects to toggle
-        foreach (GameObject obj in ObjectsToToggle)
-        {
-            // Toggle the object
-            obj.SetActive(!obj.activeSelf);
         }
     }
 }
