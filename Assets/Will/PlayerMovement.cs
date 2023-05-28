@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private float _movementTimer = 0.0f;
     private bool _extend = false;
     private Rigidbody2D _rb;
+    private bool _canfall = true;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleInput()
     {
-        GameObject hit = CheckCollision(Vector3.down, 0.6f);
+        GameObject hit = CheckCollision(Vector3.down, 0.6f, _canfall);
         if (!_extend && (hit == null || hit.GetComponent<Segment>()!=null))
             return;
 
@@ -45,10 +46,18 @@ public class PlayerMovement : MonoBehaviour
             _extend = !_extend;
 
             if (_extend)
+            {
                 _rb.bodyType = RigidbodyType2D.Static;
+                _canfall = false;
+            }
+                
             else
+            {
                 _rb.bodyType = RigidbodyType2D.Dynamic;
-            
+                _canfall = true;
+
+            }
+                
             if (_segments.Count > 0)
             {
                 StartCoroutine(ConfirmExtend());
@@ -157,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private GameObject CheckCollision(Vector3 direction, float rayLength=1.0f)
+    private GameObject CheckCollision(Vector3 direction, float rayLength=1.0f, bool collect=true)
     {
         // Raycast to check for collision
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, rayLength);
@@ -169,12 +178,15 @@ public class PlayerMovement : MonoBehaviour
             // Check for a pickup component
             BasePickup PickUp = hit.collider.gameObject.GetComponent<BasePickup>();
 
-            // If found, call collect on the base class, and return null to allow the player to move into it.
-            if (PickUp != null)
+            // If found and player wants to collect, call collect on the base class, and return null to allow the player to move into it.
+            if (PickUp != null && collect == true)
             {
                 PickUp.Collect();
                 return null;
             }
+
+            if (hit.collider.gameObject.GetComponent<PortalScript>() != null)
+                return null;
 
             return hit.collider.gameObject;
         }
@@ -248,5 +260,10 @@ public class PlayerMovement : MonoBehaviour
 
         _remainingSegments += 1;
 
+    }
+
+    public bool IsExtending()
+    {
+        return _extend;
     }
 }

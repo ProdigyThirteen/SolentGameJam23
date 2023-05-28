@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawGizmo : MonoBehaviour
-{
+{   
+
     void OnDrawGizmos()
     {
-        // Draw a yellow sphere at the transform's position
-        Gizmos.color = Color.yellow;
+
+        Gizmos.color = transform.parent.GetComponent<SpriteRenderer>().color;
+        
         Gizmos.DrawWireCube(transform.position,transform.localScale);
     }
 
