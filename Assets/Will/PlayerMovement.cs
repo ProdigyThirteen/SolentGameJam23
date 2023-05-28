@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private float _movementTimer = 0.0f;
     private bool _extend = false;
     private Rigidbody2D _rb;
+    private bool _canfall = true;
 
     void Start()
     {
@@ -35,20 +36,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleInput()
     {
+        GameObject hit = CheckCollision(Vector3.down, 0.6f, _canfall);
+        if (!_extend && (hit == null || hit.GetComponent<Segment>()!=null))
+            return;
+
         // Check if should switch between placement or movement
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _extend = !_extend;
 
             if (_extend)
+            {
                 _rb.bodyType = RigidbodyType2D.Static;
+                _canfall = false;
+            }
+                
             else
+            {
                 _rb.bodyType = RigidbodyType2D.Dynamic;
-            
+                _canfall = true;
+
+            }
+                
             if (_segments.Count > 0)
             {
                 StartCoroutine(ConfirmExtend());
             }
+
+            return;
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -70,6 +85,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement()
     {
+
+
         // If timer is still running, don't move
         if (_movementTimer > 0)
             return;
@@ -113,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.right);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.right);
         }
@@ -123,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.left);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.left);
         }
@@ -133,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.down);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.down);
         }
@@ -143,26 +160,47 @@ public class PlayerMovement : MonoBehaviour
             GameObject hit = CheckCollision(Vector3.up);
 
             if (hit != null)
-                HitDetected(hit);
+                SelfHitDetected(hit);
             else
                 PlaceSegment(Vector3.up);
         }
     }
 
-    private GameObject CheckCollision(Vector3 direction)
+    private GameObject CheckCollision(Vector3 direction, float rayLength=1.0f, bool collect=true)
     {
         // Raycast to check for collision
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, rayLength);
 
         // If hit, return the object
         if (hit.collider != null)
+        {
+
+            // Check for a pickup component
+            BasePickup PickUp = hit.collider.gameObject.GetComponent<BasePickup>();
+
+            // If found and player wants to collect, call collect on the base class, and return null to allow the player to move into it.
+            if (PickUp != null && collect == true)
+            {
+                PickUp.Collect();
+                return null;
+            }
+
+            if (hit.collider.gameObject.GetComponent<PortalScript>() != null)
+                return null;
+
             return hit.collider.gameObject;
+        }
+        
 
         // Otherwise, return null
         return null;
     }
-    private void HitDetected(GameObject other)
+    private void SelfHitDetected(GameObject other)
     {
+
+        if (_segments.Count() == 0)
+            return;
+        
         if (_segments.Last() == other)
         {
             transform.position = other.transform.position;
@@ -215,5 +253,17 @@ public class PlayerMovement : MonoBehaviour
         _remainingSegments = GameManager.Instance.TotalSegments;
 
         //yield return null;
+    }
+
+    public void AddSegment()
+    {
+
+        _remainingSegments += 1;
+
+    }
+
+    public bool IsExtending()
+    {
+        return _extend;
     }
 }
