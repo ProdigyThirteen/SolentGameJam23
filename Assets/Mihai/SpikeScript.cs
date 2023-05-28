@@ -9,7 +9,7 @@ public class SpikeScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<PlayerMovement>(out PlayerMovement playerMovement))
-            collision.gameObject.transform.position = resetPosition.transform.position;  
+            collision.gameObject.transform.position = playerMovement.getLastTeleportLocation();  
 
     }
 }

@@ -17,8 +17,11 @@ public class PortalScript : MonoBehaviour
             {
 
                 if (!player.GetComponent<PlayerMovement>().IsExtending())
+                {
                     player.transform.position = resetPosition.transform.position;
-
+                    player.GetComponent<PlayerMovement>().setLastTeleportLocation();
+                }
+                    
             }
 
         }

@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private bool _canfall = true;
 
+    private Vector3 _lastTeleportLocation;
+
     void Start()
     {
         // Initialise remaining segments
@@ -24,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Initialise rigidbody
         _rb = GetComponent<Rigidbody2D>();
+
+        _lastTeleportLocation = transform.position;
     }
 
     void Update()
@@ -265,5 +269,15 @@ public class PlayerMovement : MonoBehaviour
     public bool IsExtending()
     {
         return _extend;
+    }
+
+    public Vector3 getLastTeleportLocation()
+    {
+        return _lastTeleportLocation;
+    }
+
+    public void setLastTeleportLocation()
+    {
+        _lastTeleportLocation = gameObject.transform.position;
     }
 }
