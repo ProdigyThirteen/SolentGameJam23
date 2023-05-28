@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SaveController : MonoBehaviour
@@ -31,7 +29,7 @@ public class SaveController : MonoBehaviour
         PlayerPrefs.SetFloat(name,data);   
     }
 
-    public int LoadData(string name)
+    public int LoadDataInt(string name)
     {
         return PlayerPrefs.GetInt(name);
     }

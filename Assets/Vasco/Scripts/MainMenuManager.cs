@@ -56,9 +56,9 @@ public class MainMenuManager : MonoBehaviour
 
     #region Buttons
 
-    public void Play()
+    public void Play(string sceneName)
     {
-        SceneController.Instance.LoadScene("Level 1");
+        SceneController.Instance.LoadScene(sceneName);
     }
 
     public void Exit()
