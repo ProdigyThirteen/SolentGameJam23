@@ -10,15 +10,6 @@ public class Switch : MonoBehaviour
     {
         // Find all objects with the tag "Switchable" and add them to the list
         switchableObjects = GameObject.FindGameObjectsWithTag("Switchable");
-
-        // If the switch is set to start active, toggle the switchable objects
-        foreach (GameObject switchableObject in switchableObjects)
-        {
-            if (!switchableObject.GetComponent<Switchable>().startActive)
-            {
-                switchableObject.GetComponent<Switchable>().Toggle();
-            }
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -28,7 +19,7 @@ public class Switch : MonoBehaviour
         {
             foreach (GameObject switchableObject in switchableObjects)
             {
-                switchableObject.GetComponent<Switchable>().Toggle();
+                switchableObject.SetActive(!switchableObject.activeSelf);
             }
         }
     }
