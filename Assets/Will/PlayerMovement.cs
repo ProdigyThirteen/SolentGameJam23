@@ -280,4 +280,29 @@ public class PlayerMovement : MonoBehaviour
     {
         _lastTeleportLocation = gameObject.transform.position;
     }
+
+    public GameObject getFirstSegment()
+    {
+
+        if (_segments.Count() > 0)
+            return _segments.First();
+        else
+            return gameObject;
+
+    }
+
+    public void forceCancel()
+    {
+
+        if (_segments.Count > 0)
+        {
+            StartCoroutine(ConfirmExtend());
+        }
+
+        _extend = !_extend;
+
+        _rb.bodyType = RigidbodyType2D.Dynamic;
+        _canfall = true;
+
+    }
 }
