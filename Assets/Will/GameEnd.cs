@@ -9,6 +9,10 @@ public class GameEnd : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+        if (collision.gameObject.tag != "Player")
+            return;
+
         // Stop the timer
         GameManager.Instance.StopTimer();
         

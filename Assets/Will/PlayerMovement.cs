@@ -40,13 +40,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Update movement timer and handle input
         _movementTimer -= Time.deltaTime;
-        
+
+        // _rb.bodyType = _extend ? RigidbodyType2D.Static : RigidbodyType2D.Dynamic;
+        _rb.gravityScale = _extend ? 0f : 5f;
+
         HandleInput();
 
         if (_extend)
             GetComponent<SpriteRenderer>().sprite = extendingSprite;
         else
             GetComponent<SpriteRenderer>().sprite = normalSprite;
+
+
     }
 
     private void HandleInput()
@@ -62,13 +67,13 @@ public class PlayerMovement : MonoBehaviour
 
             if (_extend)
             {
-                _rb.bodyType = RigidbodyType2D.Static;
+                _rb.gravityScale = 0f;
                 _canfall = false;
             }
                 
             else
             {
-                _rb.bodyType = RigidbodyType2D.Dynamic;
+                _rb.gravityScale = 5f;
                 _canfall = true;
 
             }
@@ -255,13 +260,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void CancelExtend()
     {
-        transform.position = _segments.First().transform.position;
         
         foreach (GameObject segment in _segments)
         {
             segment.GetComponent<Segment>().Dissipate();
             //yield return new WaitForSeconds(0.1f);
         }
+
+        transform.position = _segments.First().transform.position;
 
         _segments.Clear();
 
@@ -312,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
 
         _extend = !_extend;
 
-        _rb.bodyType = RigidbodyType2D.Dynamic;
+        _rb.gravityScale = 5f;
         _canfall = true;
 
     }

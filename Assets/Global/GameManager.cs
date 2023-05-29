@@ -33,6 +33,10 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+
+        if (!_timerActive)
+            return;
+
         _timer += Time.deltaTime;
     }
 

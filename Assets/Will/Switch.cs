@@ -19,7 +19,8 @@ public class Switch : MonoBehaviour
         {
             foreach (GameObject switchableObject in switchableObjects)
             {
-                switchableObject.SetActive(!switchableObject.activeSelf);
+                // switchableObject.SetActive(!switchableObject.activeSelf);
+                switchableObject.GetComponent<Switchable>().Toggle();
             }
         }
     }

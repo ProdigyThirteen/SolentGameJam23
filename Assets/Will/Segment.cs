@@ -7,6 +7,7 @@ public class Segment : MonoBehaviour
     public void Dissipate()
     {
         // Shrink over time and destroy self
+        GetComponent<BoxCollider2D>().enabled = false;
         StartCoroutine(Shrink());
     }
 
