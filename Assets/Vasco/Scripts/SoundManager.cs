@@ -17,6 +17,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip buttonSelect;
     [SerializeField] private AudioClip buttonBack;
 
+    [Header("Player Sounds")]
+    [SerializeField] private AudioClip playerPlacement;
+    [SerializeField] private AudioClip playerAcceptance;
+    [SerializeField] private AudioClip playerMovement;
+
     private void Awake()
     {
         if (Instance == null)
@@ -36,6 +41,13 @@ public class SoundManager : MonoBehaviour
     public void PlaySFX(AudioClip clip)
     {
         sfxSource.clip = clip;
+        sfxSource.PlayOneShot(clip);
+    }
+
+    public void PlaySFXRandomPitch(AudioClip clip)
+    {
+        sfxSource.clip = clip;
+        sfxSource.pitch = Random.Range(0.9f, 1.1f);
         sfxSource.PlayOneShot(clip);
     }
 
@@ -64,6 +76,30 @@ public class SoundManager : MonoBehaviour
     public void PlayButtonBack()
     {
         PlaySFX(buttonBack);
+    }
+
+    #endregion
+
+    #region Player Sounds
+
+    public void PlayPlayerPlacement()
+    {
+        PlaySFXRandomPitch(playerPlacement);
+    }
+
+    public void PlayPlayerAcceptance()
+    {
+        PlaySFXRandomPitch(playerAcceptance);
+    }
+
+    public void PlayPlayerCancellation()
+    {
+        PlaySFX(playerAcceptance);
+    }
+
+    public void PlayPlayerMovement()
+    {
+        PlaySFXRandomPitch(playerMovement);
     }
 
     #endregion

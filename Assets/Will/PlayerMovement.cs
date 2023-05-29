@@ -117,7 +117,8 @@ public class PlayerMovement : MonoBehaviour
             if (CheckCollision(Vector3.right) == null)
             {
                 transform.Translate(Vector3.right);
-                _movementTimer = movementTimer;                
+                _movementTimer = movementTimer;
+                SoundManager.Instance.PlayPlayerMovement();
             }
         }
 
@@ -127,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 transform.Translate(Vector3.left);
                 _movementTimer = movementTimer;
+                SoundManager.Instance.PlayPlayerMovement();
             }
         }
     }
@@ -244,11 +246,13 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator ConfirmExtend()
     {
+        SoundManager.Instance.PlayPlayerAcceptance();
+
         // Iterate through segement list and dissipate segment
         foreach (GameObject segment in _segments)
         {
             segment.GetComponent<Segment>().Dissipate();
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.05f);
         }
 
         // Clear list of segements
@@ -260,11 +264,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void CancelExtend()
     {
-        
+        SoundManager.Instance.PlayPlayerCancellation();
+
         foreach (GameObject segment in _segments)
         {
             segment.GetComponent<Segment>().Dissipate();
-            //yield return new WaitForSeconds(0.1f);
         }
 
         transform.position = _segments.First().transform.position;
@@ -272,8 +276,6 @@ public class PlayerMovement : MonoBehaviour
         _segments.Clear();
 
         _remainingSegments = GameManager.Instance.TotalSegments;
-
-        //yield return null;
     }
 
     public void AddSegment()

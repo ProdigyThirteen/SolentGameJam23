@@ -308,3 +308,6 @@ MonoBehaviour:
   buttonHover: {fileID: 8300000, guid: 92812632c99f5c24b9aa71c5f04f842c, type: 3}
   buttonSelect: {fileID: 8300000, guid: 9a793aa27b82f6d49bf16338d762d769, type: 3}
   buttonBack: {fileID: 8300000, guid: dc1ffd6c5f5e0a54aa5f00f9bd321adc, type: 3}
+  playerPlacement: {fileID: 8300000, guid: d8408624cd094684a95df7de08c43f05, type: 3}
+  playerAcceptance: {fileID: 8300000, guid: d8408624cd094684a95df7de08c43f05, type: 3}
+  playerMovement: {fileID: 8300000, guid: d8408624cd094684a95df7de08c43f05, type: 3}
