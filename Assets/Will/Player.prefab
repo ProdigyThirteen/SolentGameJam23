@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentPrefab: {fileID: 2681770081317333707, guid: 2be8ccc6b5b8a86418d98e237f2f7ed0, type: 3}
-  movementTimer: 0.5
+  movementTimer: 0.25
   normalSprite: {fileID: 21300000, guid: 5e2254a55924ee7498bac3388474ccbc, type: 3}
   extendingSprite: {fileID: 21300000, guid: cf5c0b40d2cc6d04e97a71d73932bc91, type: 3}
 --- !u!50 &2780819331169903791

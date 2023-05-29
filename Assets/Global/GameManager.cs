@@ -7,8 +7,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public int TotalSegments = 3;
-    public const int MaxSegments = 8;
+    public int MaxSegments = 8;
     public bool StickyAcquired = false;
+
+    // Speedrun timer
+    private bool _timerActive = false;
+    private float _timer = 0f;
 
     public void Start()
     {
@@ -22,5 +26,30 @@ public class GameManager : MonoBehaviour
             Debug.LogError("There is more than one GameManager in the scene!");
             Destroy(gameObject);
         }
+
+        // Set the timer to active
+        _timerActive = true;
     }
+
+    public void Update()
+    {
+        _timer += Time.deltaTime;
+    }
+
+    public void ResetTimer()
+    {
+        _timer = 0f;
+    }
+
+    public float GetTimer()
+    {
+        return _timer;
+    }
+
+    public bool StopTimer()
+    {
+        return _timerActive = false;
+    }
+
+    
 }

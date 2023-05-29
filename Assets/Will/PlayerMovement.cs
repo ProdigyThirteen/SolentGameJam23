@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         // Update movement timer and handle input
         _movementTimer -= Time.deltaTime;
         
