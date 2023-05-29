@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     private bool _canfall = true;
 
     private Vector3 _lastTeleportLocation;
+    [Header("Sprites")]
+    [SerializeField] Sprite normalSprite;
+    [SerializeField] Sprite extendingSprite;
 
     void Start()
     {
@@ -36,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
         _movementTimer -= Time.deltaTime;
         
         HandleInput();
+
+        if (_extend)
+            GetComponent<SpriteRenderer>().sprite = extendingSprite;
+        else
+            GetComponent<SpriteRenderer>().sprite = normalSprite;
     }
 
     private void HandleInput()
@@ -279,5 +287,37 @@ public class PlayerMovement : MonoBehaviour
     public void setLastTeleportLocation()
     {
         _lastTeleportLocation = gameObject.transform.position;
+    }
+
+    public GameObject getFirstSegment()
+    {
+
+        if (_segments.Count() > 0)
+            return _segments.First();
+        else
+            return gameObject;
+
+    }
+
+    public void forceCancel()
+    {
+
+        if (_segments.Count > 0)
+        {
+            StartCoroutine(ConfirmExtend());
+        }
+
+        _extend = !_extend;
+
+        _rb.bodyType = RigidbodyType2D.Dynamic;
+        _canfall = true;
+
+    }
+
+    public int getSegmentCount()
+    {
+
+        return _segments.Count();
+
     }
 }

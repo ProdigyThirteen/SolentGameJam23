@@ -9,15 +9,18 @@ public class PortalScript : MonoBehaviour
 
     void Update()
     {
-        
-        if(Input.GetKeyDown(KeyCode.W))
+
+        if (Input.GetKeyDown(KeyCode.W))
         {
 
             if (player != null)
             {
 
                 if (!player.GetComponent<PlayerMovement>().IsExtending())
+                {
                     player.transform.position = resetPosition.transform.position;
+                    player.GetComponent<PlayerMovement>().setLastTeleportLocation();
+                }
 
             }
 
@@ -53,7 +56,7 @@ public class PortalScript : MonoBehaviour
             foreach (Collider2D col in results)
             {
 
-                if(col.gameObject.GetComponent<PlayerMovement>() != null)
+                if (col.gameObject.GetComponent<PlayerMovement>() != null)
                 {
                     return col.gameObject;
                 }
