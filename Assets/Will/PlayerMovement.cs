@@ -22,13 +22,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Sprite normalSprite;
     [SerializeField] Sprite extendingSprite;
 
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
+
     void Start()
     {
         // Initialise remaining segments
         _remainingSegments = GameManager.Instance.TotalSegments;
 
         // Initialise rigidbody
-        _rb = GetComponent<Rigidbody2D>();
+        
 
         _lastTeleportLocation = transform.position;
     }
