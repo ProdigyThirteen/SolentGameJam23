@@ -40,9 +40,8 @@ public class Switchable : MonoBehaviour
         _spriteRenderer.color = _collider.enabled ? enabledColor : disabledColor;
     }
 
-    //IEnumerator DelayedStart()
-    //{
-    //    yield return new WaitForSeconds(0.3f);
-    //    gameObject.SetActive(startActive);
-    //}
+    public bool GetActive()
+    {
+        return _collider.enabled;
+    }
 }
