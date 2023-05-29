@@ -12,9 +12,7 @@ public class AudioSettings : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
 
-    
-
-    private void Start()
+    public void Initialize()
     {
         LoadVolumes();
     }
@@ -25,7 +23,7 @@ public class AudioSettings : MonoBehaviour
         PlayerPrefs.SetFloat(slider.name + "Volume", slider.value);
     }
 
-    public void LoadVolumes()
+    private void LoadVolumes()
     {
         masterVolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume",1);
         musicVolumeSlider.value = PlayerPrefs.GetFloat("MusicVolume",1);

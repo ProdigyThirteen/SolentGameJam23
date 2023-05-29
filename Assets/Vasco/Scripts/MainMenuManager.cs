@@ -7,19 +7,8 @@ public class MainMenuManager : MonoBehaviour
     [Header("Menus")]
     [SerializeField] private List<Menu> menus = new List<Menu>();
 
-    [Header("Level Select")]
-    [SerializeField] private List<LevelSO> levels = new List<LevelSO>();
-    [SerializeField] private LevelCard levelCardPrefab;
-    [SerializeField] private Transform levelSelect;
-
     [Header("Background")]
     [SerializeField] private GameObject BackgroundImage;
-
-    [Header("Sounds")]
-    [SerializeField] private AudioClip menuMusic;
-    [SerializeField] private AudioClip buttonHover;
-    [SerializeField] private AudioClip buttonSelect;
-    [SerializeField] private AudioClip buttonBack;
 
     private AudioSettings audioSettings;
     private VideoSettings videoSettings;
@@ -27,14 +16,19 @@ public class MainMenuManager : MonoBehaviour
     private void Awake()
     {
         audioSettings = FindObjectOfType<AudioSettings>();
-        videoSettings = FindObjectOfType<VideoSettings>();  
+        if (!audioSettings)
+            Debug.LogWarning("Audio Settings not found!");
+
+        videoSettings = FindObjectOfType<VideoSettings>();
+        if (!videoSettings)
+            Debug.LogWarning("Video Settings not found!");
     }
 
     private void Start()
-    {     
-        SoundManager.Instance.PlayMusic(menuMusic);
+    {
+        SoundManager.Instance.PlayMenuMusic();
 
-        audioSettings.LoadVolumes();
+        audioSettings.Initialize();
         videoSettings.Initialize();
 
         if (SceneController.Instance.GetCurrentScene().name == "Main Menu")
@@ -62,9 +56,9 @@ public class MainMenuManager : MonoBehaviour
 
     #region Buttons
 
-    public void Play()
+    public void Play(string sceneName)
     {
-        SceneController.Instance.LoadScene("Level 1");
+        SceneController.Instance.LoadScene(sceneName);
     }
 
     public void Exit()
