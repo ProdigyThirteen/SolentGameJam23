@@ -18,7 +18,7 @@ public class RandomColour : MonoBehaviour
 
         float percent = (float) currentSegments/ (float) maxSegments;
 
-        Debug.Log(percent);
+        //Debug.Log(percent);
 
         Color end_color = Color.Lerp(blue, green, percent);
 

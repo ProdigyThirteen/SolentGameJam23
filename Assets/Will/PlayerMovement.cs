@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {    
     [Header("Segments")]
     [SerializeField] private GameObject segmentPrefab;
-    private int _remainingSegments = 0;
+    [SerializeField] private int _remainingSegments = 0;
     private List<GameObject> _segments = new List<GameObject>();
 
     [Header("Movement")]
@@ -68,6 +68,9 @@ public class PlayerMovement : MonoBehaviour
         // Check if should switch between placement or movement
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            if (_remainingSegments != GameManager.Instance.TotalSegments && !_extend)
+                return;
+
             _extend = !_extend;
 
             if (_extend)
@@ -81,12 +84,14 @@ public class PlayerMovement : MonoBehaviour
                 _rb.gravityScale = 5f;
                 _canfall = true;
 
-            }
-                
+            }      
+
             if (_segments.Count > 0)
             {
                 StartCoroutine(ConfirmExtend());
             }
+
+            
 
             return;
         }
@@ -250,6 +255,8 @@ public class PlayerMovement : MonoBehaviour
             transform.Translate(direction);
 
             SoundManager.Instance.PlayPlayerPlacement();
+
+            
         }
     }
 
@@ -269,6 +276,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Reset remaining segments
         _remainingSegments = GameManager.Instance.TotalSegments;
+
     }
 
     private void CancelExtend()
@@ -339,5 +347,10 @@ public class PlayerMovement : MonoBehaviour
 
         return _segments.Count();
 
+    }
+
+    public int getRemainingSegments()
+    {
+        return _remainingSegments;
     }
 }
