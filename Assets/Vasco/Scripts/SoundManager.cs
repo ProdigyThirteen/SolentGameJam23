@@ -102,6 +102,11 @@ public class SoundManager : MonoBehaviour
         PlaySFXRandomPitch(playerMovement);
     }
 
+    public void PlayPlayerPickup()
+    {
+        PlaySFXRandomPitch(playerAcceptance);
+    }
+
     #endregion
 
 }

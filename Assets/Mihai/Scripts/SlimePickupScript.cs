@@ -9,6 +9,7 @@ public class SlimePickupScript : BasePickup
 
         GameManager.Instance.TotalSegments++;
         FindObjectOfType<PlayerMovement>().AddSegment();
+        SoundManager.Instance.PlayPlayerPickup();
         Destroy(gameObject);
 
     }

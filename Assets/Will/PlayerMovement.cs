@@ -234,6 +234,8 @@ public class PlayerMovement : MonoBehaviour
             _segments.Remove(other);
             Destroy(other);
             _remainingSegments++;
+
+            SoundManager.Instance.PlayPlayerPlacement();
         }
     }
 
@@ -246,6 +248,8 @@ public class PlayerMovement : MonoBehaviour
             _remainingSegments--;
 
             transform.Translate(direction);
+
+            SoundManager.Instance.PlayPlayerPlacement();
         }
     }
 

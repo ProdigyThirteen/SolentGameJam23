@@ -25516,6 +25516,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1829635081153870082, guid: ef83c4265ba4a8545a2509d63c2945c5, type: 3}
+      propertyPath: menuMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 1a0cc573809d67b47a8353fa992aa16d, type: 3}
+    - target: {fileID: 1829635081153870082, guid: ef83c4265ba4a8545a2509d63c2945c5, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 8300000, guid: a66ab7ea1c7882644be4db9d57d47398, type: 3}
+    - target: {fileID: 1829635081153870082, guid: ef83c4265ba4a8545a2509d63c2945c5, type: 3}
+      propertyPath: playerAcceptance
+      value: 
+      objectReference: {fileID: 8300000, guid: ee675b7084bb28d4e814df7851b2c21b, type: 3}
     - target: {fileID: 1829635081153870083, guid: ef83c4265ba4a8545a2509d63c2945c5, type: 3}
       propertyPath: m_RootOrder
       value: 5
